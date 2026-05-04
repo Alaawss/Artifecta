@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Services Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    background: #0a0a0a;
+    overflow-x: hidden;
+  }
+
+  .svg-stage {
+    display: block;
+    width: 100%;
+  }
+
+  #road {
+    stroke-dasharray: 9000;
+    stroke-dashoffset: 9000;
+    animation: drawRoad 5s cubic-bezier(.4,0,.15,1) forwards .2s;
+  }
+  @keyframes drawRoad { to { stroke-dashoffset: 0; } }
+
+  .g0 { opacity:0; animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards .05s; }
+  .g1 { opacity:0; animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards 1.0s; }
+  .g2 { opacity:0; animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards 1.9s; }
+  .g3 { opacity:0; animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards 2.8s; }
+  .g4 { opacity:0; animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards 3.7s; }
+  .g5 { opacity:0; animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards 4.6s; }
+  .g6 { opacity:0; animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards 5.5s; }
+
+  @keyframes riseIn {
+    from { opacity:0; transform: translateY(8px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .pulse-ring {
+    animation: pulseRing 2.8s ease-out infinite 1.4s;
+  }
+  @keyframes pulseRing {
+    0%   { r:7;  opacity:.5; }
+    70%  { r:20; opacity:0;  }
+    100% { r:20; opacity:0;  }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  VIEWBOX: 1440 x 1560
+  
+  DOT POSITIONS (cx, cy):
+    01 Brand Identity         → (720,  200)   top center
+    02 UI/UX Design           → (280,  480)   left
+    03 Web Design             → (1160, 720)   right
+    04 Web Development        → (260,  970)   left
+    05 AI Integration         → (1140, 1220)  right
+    06 Digital Product Dev    → (460,  1460)  bottom left
+
+  TEXT LAYOUT:
+    Left dot  → text to the RIGHT  (x = dot.cx + 22)
+    Right dot → text to the LEFT   (text-anchor="end", x = dot.cx - 22)
+    Center dot → text to the RIGHT
+    
+  Each text block uses ABSOLUTE y coordinates:
+    - Service name:  y = dot.cy - 8
+    - Desc line 1:   y = dot.cy + 20
+    - Desc line 2:   y = dot.cy + 38
+-->
+
+<svg class="svg-stage"
+     viewBox="0 0 1440 1560"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap');
+    </style>
+
+    <filter id="glow" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- TITLE -->
+  <g class="g0">
+    <text x="720" y="80"
+          font-family="'Unbounded', sans-serif"
+          font-weight="400"
+          font-size="11"
+          fill="#A9C2D8"
+          opacity="0.4"
+          text-anchor="middle"
+          letter-spacing="0.22em">SERVICES</text>
+  </g>
+
+  <!-- ROAD PATH -->
+  <path id="road"
+    fill="none"
+    stroke="#A9C2D8"
+    stroke-width="0.9"
+    stroke-linecap="round"
+    opacity="0.45"
+    d="
+      M 720 105
+
+      C 755 112, 820 125, 855 140
+      C 905 158, 868 172, 840 176
+      C 800 182, 755 186, 720 200
+
+      C 640 230, 420 340, 340 410
+      C 280 462, 274 474, 280 480
+
+      C 340 510, 740 580, 980 640
+      C 1110 676, 1168 714, 1160 720
+
+      C 1080 752, 660 800, 440 866
+      C 300 912, 252 962, 260 970
+
+      C 310 1005, 740 1070, 970 1148
+      C 1100 1192, 1152 1214, 1140 1220
+
+      C 1040 1268, 660 1320, 550 1392
+      C 480 1438, 456 1456, 460 1460
+    "
+  />
+
+  <!-- ══════════════════════════════════════
+       STOP 01 — Brand Identity
+       dot cx=720 cy=200
+       text RIGHT: x=742, name y=192, desc y=220 / y=240
+  ══════════════════════════════════════════ -->
+  <g class="g1">
+    <circle class="pulse-ring" cx="720" cy="200" r="7" fill="#ffffff" opacity="0.5"/>
+    <circle cx="720" cy="200" r="5.5" fill="#ffffff" filter="url(#glow)"/>
+
+    <!-- name -->
+    <text
+      x="742" y="192"
+      font-family="'Unbounded', sans-serif" font-weight="700"
+      font-size="14.5" fill="#ffffff" letter-spacing="-0.01em">Brand Identity</text>
+    <!-- desc line 1 -->
+    <text
+      x="742" y="220"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">Crafting unique visual identities that</text>
+    <!-- desc line 2 -->
+    <text
+      x="742" y="238"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">define and elevate your brand.</text>
+  </g>
+
+  <!-- ══════════════════════════════════════
+       STOP 02 — UI/UX Design
+       dot cx=280 cy=480
+       text RIGHT: x=302, name y=472, desc y=500 / y=518
+  ══════════════════════════════════════════ -->
+  <g class="g2">
+    <circle cx="280" cy="480" r="5"
+            fill="none" stroke="#ffffff" stroke-width="1.3"
+            filter="url(#softglow)"/>
+    <circle cx="280" cy="480" r="1.6" fill="#ffffff" opacity="0.85"/>
+
+    <text
+      x="302" y="472"
+      font-family="'Unbounded', sans-serif" font-weight="700"
+      font-size="14.5" fill="#ffffff" letter-spacing="-0.01em">UI/UX Design</text>
+    <text
+      x="302" y="500"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">Designing intuitive and engaging user</text>
+    <text
+      x="302" y="518"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">experiences across digital products.</text>
+  </g>
+
+  <!-- ══════════════════════════════════════
+       STOP 03 — Web Design
+       dot cx=1160 cy=720
+       text LEFT (text-anchor=end): x=1138, name y=712, desc y=740 / y=758
+  ══════════════════════════════════════════ -->
+  <g class="g3">
+    <circle cx="1160" cy="720" r="5"
+            fill="none" stroke="#ffffff" stroke-width="1.3"
+            filter="url(#softglow)"/>
+    <circle cx="1160" cy="720" r="1.6" fill="#ffffff" opacity="0.85"/>
+
+    <text
+      x="1138" y="712"
+      font-family="'Unbounded', sans-serif" font-weight="700"
+      font-size="14.5" fill="#ffffff" letter-spacing="-0.01em"
+      text-anchor="end">Web Design</text>
+    <text
+      x="1138" y="740"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7"
+      text-anchor="end">Creating modern, responsive, and</text>
+    <text
+      x="1138" y="758"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7"
+      text-anchor="end">visually compelling websites.</text>
+  </g>
+
+  <!-- ══════════════════════════════════════
+       STOP 04 — Web Development
+       dot cx=260 cy=970
+       text RIGHT: x=282, name y=962, desc y=990 / y=1008
+  ══════════════════════════════════════════ -->
+  <g class="g4">
+    <circle cx="260" cy="970" r="5"
+            fill="none" stroke="#ffffff" stroke-width="1.3"
+            filter="url(#softglow)"/>
+    <circle cx="260" cy="970" r="1.6" fill="#ffffff" opacity="0.85"/>
+
+    <text
+      x="282" y="962"
+      font-family="'Unbounded', sans-serif" font-weight="700"
+      font-size="14.5" fill="#ffffff" letter-spacing="-0.01em">Web Development</text>
+    <text
+      x="282" y="990"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">Building fast, scalable, and reliable</text>
+    <text
+      x="282" y="1008"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">web applications.</text>
+  </g>
+
+  <!-- ══════════════════════════════════════
+       STOP 05 — AI Integration
+       dot cx=1140 cy=1220
+       text LEFT (text-anchor=end): x=1118, name y=1212, desc y=1240 / y=1258
+  ══════════════════════════════════════════ -->
+  <g class="g5">
+    <circle cx="1140" cy="1220" r="5"
+            fill="none" stroke="#ffffff" stroke-width="1.3"
+            filter="url(#softglow)"/>
+    <circle cx="1140" cy="1220" r="1.6" fill="#ffffff" opacity="0.85"/>
+
+    <text
+      x="1118" y="1212"
+      font-family="'Unbounded', sans-serif" font-weight="700"
+      font-size="14.5" fill="#ffffff" letter-spacing="-0.01em"
+      text-anchor="end">AI Integration</text>
+    <text
+      x="1118" y="1240"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7"
+      text-anchor="end">Integrating intelligent solutions to</text>
+    <text
+      x="1118" y="1258"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7"
+      text-anchor="end">enhance digital experiences.</text>
+  </g>
+
+  <!-- ══════════════════════════════════════
+       STOP 06 — Digital Product Development
+       dot cx=460 cy=1460
+       text RIGHT: x=482, name y=1452, desc y=1480 / y=1498
+  ══════════════════════════════════════════ -->
+  <g class="g6">
+    <circle cx="460" cy="1460" r="5"
+            fill="none" stroke="#ffffff" stroke-width="1.3"
+            filter="url(#softglow)"/>
+    <circle cx="460" cy="1460" r="1.6" fill="#ffffff" opacity="0.85"/>
+
+    <text
+      x="482" y="1452"
+      font-family="'Unbounded', sans-serif" font-weight="700"
+      font-size="14.5" fill="#ffffff" letter-spacing="-0.01em">Digital Product Development</text>
+    <text
+      x="482" y="1480"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">Transforming ideas into functional and</text>
+    <text
+      x="482" y="1498"
+      font-family="'Unbounded', sans-serif" font-weight="300"
+      font-size="11.5" fill="#A9C2D8" opacity=".7">scalable digital products.</text>
+  </g>
+
+</svg>
+
+</body>
+</html>
