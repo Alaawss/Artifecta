@@ -13,14 +13,14 @@ export default function Navbar() {
       <div className="flex items-center gap-2">
         <img
           src={LOGO_SRC}
-          alt="Artifact logo"
+          alt="Artifecta logo"
           style={{ width: 60, height: 55, objectFit: "contain" }}
         />
         <span
           className="font-unbounded text-sm font-semibold tracking-widest"
           style={{ color: "#142638" }}
         >
-          ARTIFACT
+          ARTIFECTA
         </span>
       </div>
 

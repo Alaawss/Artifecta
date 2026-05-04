@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
             <img
               src={LOGO_SRC}
-              alt="Artifact logo"
+              alt="Artifecta logo"
               style={{
                 width: 44,
                 height: 44,
@@ -20,7 +20,7 @@ export default function Footer() {
               }}
             />
             <span className="font-unbounded text-sm font-bold tracking-widest text-white">
-              ARTIFACT
+              ARTIFECTA
             </span>
           </div>
           <p
@@ -38,7 +38,7 @@ export default function Footer() {
             Casablanca, Morocco
           </p>
           <p className="font-body text-sm" style={{ color: "#a9c2d8", opacity: 0.7 }}>
-            hello@artifact.ma
+            hello@artifecta.ma
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default function Footer() {
         className="pt-8 border-t border-[rgba(169,194,216,0.1)] flex flex-col md:flex-row justify-between items-center gap-4"
       >
         <p className="font-body text-xs" style={{ color: "#a9c2d8", opacity: 0.4 }}>
-          © 2026 Artifact. All rights reserved.
+          © 2026 Artifecta. All rights reserved.
         </p>
         <div className="flex gap-6 font-body text-xs">
           <a
