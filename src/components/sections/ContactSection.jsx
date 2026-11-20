@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CONTACT_IMAGE_SRC, projectTypes } from "../../constants/site";
+import { CONTACT_IMAGE_SRC, WEB3FORMS_ACCESS_KEY, projectTypes } from "../../constants/site";
+
+const SEND_ERROR_MESSAGE =
+  "Impossible d’envoyer votre message pour le moment. Veuillez réessayer.";
 
 const initialForm = {
   name: "",
   email: "",
   projectType: "",
   message: "",
+  // Honeypot: hidden from people, so only bots tick it. Web3Forms drops those submissions.
+  botcheck: false,
 };
 
 export default function ContactSection() {
@@ -20,35 +25,46 @@ export default function ContactSection() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setIsSubmitting(true);
     setStatus({ type: "idle", message: "" });
 
+    if (!WEB3FORMS_ACCESS_KEY) {
+      console.error("Contact form: WEB3FORMS_ACCESS_KEY is empty in src/constants/site.js.");
+      setStatus({ type: "error", message: SEND_ERROR_MESSAGE });
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Nouveau message de ${form.name.trim()} via le site`,
+          from_name: "Site Artifecta",
+          name: form.name.trim(),
+          email: form.email.trim(),
+          "Type de projet": form.projectType,
+          message: form.message.trim(),
+          botcheck: form.botcheck,
+        }),
       });
 
-      const payload = await response.json();
+      const payload = await response.json().catch(() => ({}));
 
-      if (!response.ok) {
-        throw new Error(payload.error || "Unable to send your message right now.");
+      if (!response.ok || !payload.success) {
+        // Web3Forms answers in English, so keep its reason in the console and show ours.
+        console.error("Contact form failed:", payload.message || payload.body?.message || response.status);
+        setStatus({ type: "error", message: SEND_ERROR_MESSAGE });
+        return;
       }
 
-      setStatus({
-        type: "success",
-        message: payload.message || "Message sent successfully.",
-      });
+      setStatus({ type: "success", message: "Merci, votre message a bien été envoyé." });
       setForm(initialForm);
-    } catch (error) {
-      setStatus({
-        type: "error",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Unable to send your message right now.",
-      });
+    } catch {
+      // Network failures surface browser-generated (English) messages, so show ours instead.
+      setStatus({ type: "error", message: SEND_ERROR_MESSAGE });
     } finally {
       setIsSubmitting(false);
     }
@@ -80,10 +96,10 @@ export default function ContactSection() {
                 lineHeight: 1.6,
               }}
             >
-              "Great things in business are never done by one person. They're done
-              by a team of people."
+              «&nbsp;Les grandes choses dans les affaires ne sont jamais accomplies
+              par une seule personne. Elles sont l’œuvre d’une équipe.&nbsp;»
               <br />
-              Let's build something extraordinary together.
+              Construisons ensemble quelque chose d’extraordinaire.
             </p>
 
             <form
@@ -94,7 +110,7 @@ export default function ContactSection() {
                 className="contact-input"
                 type="text"
                 name="name"
-                placeholder="Your Name"
+                placeholder="Votre nom"
                 value={form.name}
                 onChange={(event) => updateField("name", event.target.value)}
                 required
@@ -103,7 +119,7 @@ export default function ContactSection() {
                 className="contact-input"
                 type="email"
                 name="email"
-                placeholder="Your Email"
+                placeholder="Votre adresse e-mail"
                 value={form.email}
                 onChange={(event) => updateField("email", event.target.value)}
                 required
@@ -120,7 +136,7 @@ export default function ContactSection() {
                   required
                 >
                   <option value="" disabled style={{ color: "#142638" }}>
-                    Project Type
+                    Type de projet
                   </option>
                   {projectTypes.map((projectType) => (
                     <option
@@ -153,12 +169,22 @@ export default function ContactSection() {
               <textarea
                 className="contact-input"
                 name="message"
-                placeholder="Your Message"
+                placeholder="Votre message"
                 rows={4}
                 value={form.message}
                 onChange={(event) => updateField("message", event.target.value)}
                 style={{ resize: "vertical" }}
                 required
+              />
+              <input
+                type="checkbox"
+                name="botcheck"
+                checked={form.botcheck}
+                onChange={(event) => updateField("botcheck", event.target.checked)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ display: "none" }}
               />
 
               {status.message ? (
@@ -191,10 +217,10 @@ export default function ContactSection() {
                 transition={{ duration: 0.25 }}
               >
                 {isSubmitting
-                  ? "Sending..."
+                  ? "Envoi en cours…"
                   : status.type === "success"
-                    ? "Message Sent ✓"
-                    : "Let's Work Together →"}
+                    ? "Message envoyé ✓"
+                    : "Travaillons ensemble →"}
               </motion.button>
             </form>
           </motion.div>
@@ -212,7 +238,7 @@ export default function ContactSection() {
           >
             <img
               src={CONTACT_IMAGE_SRC}
-              alt="Contact background"
+              alt="Illustration de contact"
               className="w-full h-auto object-cover rounded-3xl shadow-2xl"
               style={{ maxHeight: "520px" }}
             />

@@ -1,185 +1,191 @@
 import { motion } from "framer-motion";
+import { EASE } from "../motion";
 
-const roadmapPoints = [
-  { x: 720, y: 200, anchor: "start", delay: 0.6, title: "Brand Identity", lines: ["Crafting unique visual identities that", "define and elevate your brand."] },
-  { x: 280, y: 480, anchor: "start", delay: 1.1, title: "UI/UX Design", lines: ["Designing intuitive and engaging user", "experiences across digital products."] },
-  { x: 1160, y: 720, anchor: "end", delay: 1.6, title: "Web Design", lines: ["Creating modern, responsive, and", "visually compelling websites."] },
-  { x: 260, y: 970, anchor: "start", delay: 2.1, title: "Web Development", lines: ["Building fast, scalable, and reliable", "web applications."] },
-  { x: 1140, y: 1220, anchor: "end", delay: 2.6, title: "AI Integration", lines: ["Integrating intelligent solutions to", "enhance digital experiences."] },
-  { x: 460, y: 1460, anchor: "start", delay: 3.1, title: "Digital Product Development", lines: ["Transforming ideas into functional and", "scalable digital products."] },
+const services = [
+  {
+    number: "01",
+    icon: "brand",
+    title: "Identité de marque",
+    description:
+      "Des identités visuelles distinctives — logos, typographies et palettes de couleurs — qui rendent votre marque immédiatement reconnaissable et inoubliable.",
+    deliverables: ["Logo", "Charte graphique", "Typographies"],
+  },
+  {
+    number: "02",
+    icon: "uiux",
+    title: "Design UI/UX",
+    description:
+      "Des interfaces intuitives et des parcours utilisateurs fluides, pensés pour maximiser l’engagement, l’ergonomie et la conversion à chaque point de contact.",
+    deliverables: ["Wireframes", "Prototypes", "Design system"],
+  },
+  {
+    number: "03",
+    icon: "web",
+    title: "Web design",
+    description:
+      "Des sites modernes, responsives et visuellement percutants, qui reflètent les valeurs de votre marque et transforment vos visiteurs en clients.",
+    deliverables: ["Maquettes", "Responsive", "Landing pages"],
+  },
+  {
+    number: "04",
+    icon: "code",
+    title: "Développement web",
+    description:
+      "Des applications web rapides, évolutives et sécurisées, construites avec des technologies de pointe et les meilleures pratiques d’ingénierie.",
+    deliverables: ["Sites React", "API", "Mise en ligne"],
+  },
+  {
+    number: "05",
+    icon: "ai",
+    title: "Intégration IA",
+    description:
+      "Automatisation intelligente, chatbots et fonctionnalités propulsées par l’IA pour enrichir votre produit digital et réduire vos coûts opérationnels.",
+    deliverables: ["Chatbots", "Automatisation", "Intégrations"],
+  },
+  {
+    number: "06",
+    icon: "product",
+    title: "Produits digitaux",
+    description:
+      "Un accompagnement de bout en bout — de la stratégie et du concept au design, au développement, au lancement et à l’amélioration continue.",
+    deliverables: ["Stratégie", "MVP", "Suivi"],
+  },
 ];
 
-function ServicesRoadmap() {
+// Line icons drawn in currentColor, so they follow the card's hover colour swap.
+const ICONS = {
+  brand: (
+    <>
+      <path d="M6 3h12l4 6-10 12L2 9z" />
+      <path d="M2 9h20M12 21 8 9l4-6 4 6-4 12" />
+    </>
+  ),
+  uiux: (
+    <>
+      <rect x="2" y="3" width="16" height="13" rx="2" />
+      <path d="M2 7h16" />
+      <path d="m13 12 8.5 3.2-3.6 1.3-1.3 3.6z" />
+    </>
+  ),
+  web: (
+    <>
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="M2 9h20M6 13h7M6 16h10" />
+    </>
+  ),
+  code: <path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14" />,
+  ai: (
+    <>
+      <path d="m11 3 1.8 4.7 4.7 1.8-4.7 1.8L11 16l-1.8-4.7L4.5 9.5l4.7-1.8z" />
+      <path d="m18.5 14 .9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z" />
+    </>
+  ),
+  product: <path d="m12 3 9 5-9 5-9-5 9-5ZM3 12.5l9 5 9-5M3 17l9 5 9-5" />,
+};
+
+function ServiceIcon({ name }) {
   return (
-    <div className="w-full mt-10 overflow-hidden relative" style={{ minHeight: "600px" }}>
-      <svg
-        className="w-full h-auto block"
-        viewBox="0 0 1440 1560"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ minWidth: "800px", margin: "0 auto", maxWidth: "100%" }}
-      >
-        <defs>
-          <filter id="glow" x="-120%" y="-120%" width="340%" height="340%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <motion.g
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-        >
-          <text
-            x="720"
-            y="80"
-            fontFamily="'Unbounded', sans-serif"
-            fontWeight="400"
-            fontSize="16"
-            fill="#A9C2D8"
-            opacity="0.4"
-            textAnchor="middle"
-            letterSpacing="0.22em"
-          >
-            SERVICES
-          </text>
-        </motion.g>
-
-        <motion.path
-          fill="none"
-          stroke="#A9C2D8"
-          strokeWidth="0.9"
-          strokeLinecap="round"
-          opacity="0.45"
-          d="M 720 105 C 755 112, 820 125, 855 140 C 905 158, 868 172, 840 176 C 800 182, 755 186, 720 200 C 640 230, 420 340, 340 410 C 280 462, 274 474, 280 480 C 340 510, 740 580, 980 640 C 1110 676, 1168 714, 1160 720 C 1080 752, 660 800, 440 866 C 300 912, 252 962, 260 970 C 310 1005, 740 1070, 970 1148 C 1100 1192, 1152 1214, 1140 1220 C 1040 1268, 660 1320, 550 1392 C 480 1438, 456 1456, 460 1460"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 3, ease: [0.4, 0, 0.15, 1], delay: 0.2 }}
-        />
-
-        <motion.circle
-          cx="720"
-          cy="200"
-          r="12"
-          fill="#ffffff"
-          opacity="0.5"
-          animate={{ r: [12, 34, 34], opacity: [0.5, 0, 0] }}
-          transition={{ duration: 2.8, ease: "easeOut", repeat: Infinity, delay: 1.0 }}
-        />
-        <circle cx="720" cy="200" r="10" fill="#ffffff" filter="url(#glow)" />
-
-        {roadmapPoints.map((point) => {
-          const textX = point.anchor === "end" ? point.x - 36 : point.x + 36;
-          return (
-            <motion.g
-              key={point.title}
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.9,
-                ease: [0.22, 1, 0.36, 1],
-                delay: point.delay,
-              }}
-            >
-              {point.title === "Brand Identity" ? null : (
-                <>
-                  <circle
-                    cx={point.x}
-                    cy={point.y}
-                    r="9"
-                    fill="none"
-                    stroke="#ffffff"
-                    strokeWidth="1.3"
-                    filter="url(#softglow)"
-                  />
-                  <circle cx={point.x} cy={point.y} r="3.5" fill="#ffffff" opacity="0.85" />
-                </>
-              )}
-              <text
-                x={textX}
-                y={point.y - 10}
-                fontFamily="'Unbounded', sans-serif"
-                fontWeight="700"
-                fontSize="22"
-                fill="#ffffff"
-                letterSpacing="-0.01em"
-                textAnchor={point.anchor}
-              >
-                {point.title}
-              </text>
-              <text
-                x={textX}
-                y={point.y + 28}
-                fontFamily="'Unbounded', sans-serif"
-                fontWeight="300"
-                fontSize="16"
-                fill="#A9C2D8"
-                opacity=".7"
-                textAnchor={point.anchor}
-              >
-                {point.lines[0]}
-              </text>
-              <text
-                x={textX}
-                y={point.y + 52}
-                fontFamily="'Unbounded', sans-serif"
-                fontWeight="300"
-                fontSize="16"
-                fill="#A9C2D8"
-                opacity=".7"
-                textAnchor={point.anchor}
-              >
-                {point.lines[1]}
-              </text>
-            </motion.g>
-          );
-        })}
+    <span className="service-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        {ICONS[name]}
       </svg>
-    </div>
+    </span>
   );
 }
+
+// The grid reveals its cards one after another.
+const GRID = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } };
+const CARD = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
 
 export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="w-full px-8 py-24 overflow-hidden"
-      style={{ background: "#4e6c80", minHeight: "520px" }}
+      className="w-full px-8 py-24"
+      style={{ background: "#142638" }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h2
-          className="font-unbounded font-bold mb-8 text-center"
-          style={{
-            fontSize: "clamp(2rem, 5vw, 3.2rem)",
-            color: "#ffffff",
-            lineHeight: 1.15,
-          }}
-        >
-          Services that
-          <br />
-          are{" "}
-          <span
-            className="font-style-script"
-            style={{ fontSize: "1.15em", color: "#a9c2d8", fontWeight: 400 }}
+        {/* Header */}
+        <div className="mb-16">
+          <motion.div
+            className="flex items-center gap-3 mb-6"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            Tailored
-          </span>
-        </h2>
+            <div
+              style={{ width: "28px", height: "2px", background: "#a9c2d8", opacity: 0.5 }}
+            />
+            <span
+              className="font-unbounded font-medium tracking-widest uppercase"
+              style={{ fontSize: "0.7rem", color: "#a9c2d8", opacity: 0.5 }}
+            >
+              Nos expertises
+            </span>
+          </motion.div>
 
-        <ServicesRoadmap />
+          <motion.h2
+            className="font-unbounded font-bold"
+            style={{
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+              color: "#ffffff",
+              lineHeight: 1.1,
+              letterSpacing: "-0.025em",
+              maxWidth: "760px",
+            }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.75, delay: 0.1 }}
+          >
+            Des services{" "}
+            <span
+              className="font-style-script"
+              style={{ fontSize: "1.1em", color: "#a9c2d8", fontWeight: 400 }}
+            >
+              sur mesure
+            </span>{" "}
+            pour votre vision.
+          </motion.h2>
+        </div>
+
+        {/* Service cards: hovering inverts a card to the light brand blue */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          variants={GRID}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+        >
+          {services.map((service) => (
+            <motion.article
+              key={service.title}
+              className="service-card"
+              variants={CARD}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <ServiceIcon name={service.icon} />
+                <span className="service-card-number font-unbounded">{service.number}</span>
+              </div>
+              <h3 className="service-card-title font-unbounded font-bold">{service.title}</h3>
+
+              <p className="service-card-text font-body text-sm leading-relaxed">
+                {service.description}
+              </p>
+
+              <ul className="service-card-deliverables font-body">
+                {service.deliverables.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </motion.article>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

@@ -1,0 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-sand-50 font-sans text-navy-900 antialiased;
+  }
+
+  html[lang='ar'] body {
+    @apply font-arabic;
+  }
+
+  /* Letter-spacing breaks the joining of Arabic letters. */
+  html[lang='ar'] *,
+  html[lang='ar'] *::before,
+  html[lang='ar'] *::after {
+    letter-spacing: 0 !important;
+  }
+
+  /* Arabic glyphs need more vertical room than the tight Latin heading leading. */
+  html[lang='ar'] h1,
+  html[lang='ar'] h2,
+  html[lang='ar'] h3 {
+    line-height: 1.35;
+  }
+
+  ::selection {
+    background-color: theme('colors.saffron.100');
+    color: theme('colors.navy.900');
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.saffron.500');
+    outline-offset: 2px;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 text-sm font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-sm {
+    @apply h-9 px-3;
+  }
+  .btn-lg {
+    @apply h-12 px-6 text-[15px];
+  }
+  .btn-primary {
+    @apply bg-navy text-white hover:bg-navy-700;
+  }
+  .btn-accent {
+    @apply bg-saffron-500 text-navy-950 hover:bg-saffron-400;
+  }
+  .btn-secondary {
+    @apply border border-sand-300 bg-white text-navy-900 hover:border-sand-400 hover:bg-sand-100;
+  }
+  .btn-ghost {
+    @apply text-navy-900 hover:bg-sand-100;
+  }
+  .btn-danger {
+    @apply border border-red-200 bg-white text-red-700 hover:bg-red-50;
+  }
+  .btn-on-dark {
+    @apply border border-white/25 text-white hover:bg-white/10;
+  }
+
+  /* Forms */
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-navy-900;
+  }
+  .input {
+    @apply block h-11 w-full rounded-md border border-sand-300 bg-white px-3.5 text-sm text-navy-900 transition-colors placeholder:text-sand-500 hover:border-sand-400 focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/10;
+  }
+  .textarea {
+    @apply input h-auto min-h-[6rem] py-2.5 leading-relaxed;
+  }
+  .select {
+    @apply input cursor-pointer appearance-none pe-9;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666054' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+  }
+  [dir='rtl'] .select {
+    background-position: left 0.75rem center;
+  }
+  .input-invalid {
+    @apply border-red-500 hover:border-red-500 focus:border-red-600 focus:ring-red-500/10;
+  }
+  .field-error {
+    @apply mt-1.5 text-xs text-red-700;
+  }
+  .checkbox {
+    @apply h-4 w-4 cursor-pointer rounded border-sand-400 accent-navy;
+  }
+
+  /* Surfaces & text */
+  .card {
+    @apply rounded-lg border border-sand-200 bg-white;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.08em] text-saffron-700;
+  }
+  .heading-section {
+    @apply text-[28px] font-semibold leading-tight tracking-tight text-navy-900 sm:text-[34px];
+  }
+  .lead {
+    @apply text-base leading-relaxed text-sand-600;
+  }
+  .text-muted {
+    @apply text-sand-600;
+  }
+
+  /* Status chips */
+  .chip {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium;
+  }
+  .chip-verified {
+    @apply chip bg-emerald-50 text-emerald-700;
+  }
+  .chip-premium {
+    @apply chip bg-saffron-50 text-saffron-800 ring-1 ring-inset ring-saffron-200;
+  }
+  .chip-neutral {
+    @apply chip bg-sand-100 text-sand-700;
+  }
+  .chip-info {
+    @apply chip bg-navy-50 text-navy-700;
+  }
+  .chip-danger {
+    @apply chip bg-red-50 text-red-700;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded bg-sand-200;
+  }
+
+  /* Photos */
+  .img-zoom {
+    @apply transition-transform duration-500 motion-safe:group-hover:scale-105;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .photo-scrim {
+    @apply pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-navy-950/5;
+  }
+
+  /* Endless ticker: two identical copies slide by their own width. */
+  .marquee {
+    @apply flex overflow-hidden;
+  }
+  .marquee-copy {
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
+  }
+  [dir='rtl'] .marquee-copy {
+    animation-name: marquee-rtl;
+  }
+  .marquee:hover .marquee-copy {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-rtl {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-copy,
+  [dir='rtl'] .marquee-copy {
+    animation: none;
+  }
+}
