@@ -1,15 +1,26 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Navbar from "../Navbar";
+import { EASE } from "../motion";
 import { HERO_SRC } from "../../constants/site";
 
 export default function HeroSection() {
+  const sectionRef = useRef(null);
+  const reduceMotion = useReducedMotion();
+
+  // Parallax: the background drifts down slower than the page while the hero scrolls away.
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+
   return (
     <section
+      ref={sectionRef}
       id="home"
       className="relative w-full"
       style={{ minHeight: "125vh", overflow: "hidden" }}
     >
-      <div
+      {/* Background with a slow, endless zoom (Ken Burns effect) */}
+      <motion.div
         style={{
           position: "absolute",
           inset: 0,
@@ -17,7 +28,11 @@ export default function HeroSection() {
           backgroundSize: "cover",
           backgroundPosition: "center -50%",
           backgroundRepeat: "no-repeat",
+          y: reduceMotion ? 0 : backgroundY,
+          willChange: "transform",
         }}
+        animate={reduceMotion ? undefined : { scale: [1, 1.08] }}
+        transition={{ duration: 24, ease: "linear", repeat: Infinity, repeatType: "mirror" }}
       />
 
       <div
@@ -37,18 +52,18 @@ export default function HeroSection() {
         <motion.h1
           className="font-unbounded font-bold leading-tight mb-6"
           style={{
-            fontSize: "clamp(2.2rem, 6vw, 4.2rem)",
+            fontSize: "clamp(2rem, 4.4vw, 4.2rem)",
             color: "#142638",
-            maxWidth: "1200px",
+            maxWidth: "1440px",
           }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
         >
           <span className="hero-line">
-            The perfect fusion of <span className="text-outlined">AI,</span>
+            La fusion parfaite de <span className="text-outlined">l’IA,</span>
           </span>
-          <span className="text-outlined hero-line">Design, and Engineering</span>
+          <span className="text-outlined hero-line">du Design et de l’Ingénierie</span>
         </motion.h1>
 
         <motion.p
@@ -56,44 +71,51 @@ export default function HeroSection() {
           style={{
             color: "#142638",
             fontSize: "1.2rem",
-            maxWidth: "560px",
+            maxWidth: "640px",
             lineHeight: 1.6,
           }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.55 }}
         >
-          We craft scalable digital experiences powered by design, technology,
-          and artificial intelligence.
+          Nous concevons des expériences digitales évolutives, portées par le
+          design, la technologie et l’intelligence artificielle.
         </motion.p>
 
-        <motion.a
-          href="#contact"
-          className="font-body font-medium flex items-center gap-3 px-8 py-4 rounded-full"
-          style={{
-            background: "rgba(255,255,255,0.75)",
-            color: "#142638",
-            fontSize: "1rem",
-            textDecoration: "none",
-            backdropFilter: "blur(6px)",
-            border: "1px solid rgba(255,255,255,0.5)",
-            boxShadow: "0 4px 24px rgba(20,38,56,0.12)",
-          }}
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
-          whileHover={{ scale: 1.06, boxShadow: "0 8px 32px rgba(20,38,56,0.22)" }}
-          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.8 }}
         >
-          Get Started
-          <motion.span
-            style={{ fontSize: "1.1rem", display: "inline-block" }}
-            whileHover={{ x: 4 }}
-            transition={{ duration: 0.2 }}
-          >
-            →
-          </motion.span>
-        </motion.a>
+          <a href="#contact" className="hero-cta hero-cta-primary">
+            Démarrer un projet
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+          <a href="#services" className="hero-cta hero-cta-secondary">
+            Découvrir nos services
+          </a>
+        </motion.div>
+
+        <motion.div
+          style={{ marginTop: "56px" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+        >
+          <a href="#about" className="scroll-hint" aria-label="Défiler vers la suite">
+            <span className="scroll-hint-mouse" aria-hidden="true">
+              <motion.span
+                className="scroll-hint-wheel"
+                animate={reduceMotion ? undefined : { y: [0, 10, 0], opacity: [1, 0.2, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </span>
+            Défiler
+          </a>
+        </motion.div>
       </div>
     </section>
   );
